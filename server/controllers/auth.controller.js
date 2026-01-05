@@ -159,14 +159,12 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
 });
 
 const getCurrentUser = asyncHandler(async (req, res) => {
-    // Fetch user from DB using ID from JWT payload (set by verifyJWT middleware)
     const user = await User.findById(req.user._id).select("-password -refreshToken");
 
     if (!user) {
         throw new ApiError(404, "User not found");
     }
 
-    // Return the user (without sensitive data)
     res.status(200).json(new ApiResponse(200, user, "User fetched successfully"));
 });
 
@@ -177,16 +175,14 @@ const forgotPasswordController = asyncHandler(async (req, res) => {
     const user = await User.findOne({ email });
     if (!user) throw new ApiError(404, "User not found");
 
-    // Generate reset token
     const resetToken = crypto.randomBytes(32).toString("hex");
 
     user.resetPasswordToken = resetToken;
-    user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
+    user.resetPasswordExpires = Date.now() + 3600000;
     await user.save();
 
     const resetUrl = `http://localhost:5173/reset-password/${resetToken}`;
 
-    // Send Email
     await transporter.sendMail({
         from: `"PizzaVibe Support" <${process.env.SMTP_USER}>`,
         to: user.email,
@@ -261,7 +257,7 @@ const loginWithOtp = asyncHandler(async (req, res) => {
 
   user.refreshToken = refreshToken;
   await user.save({ validateBeforeSave: false });
-  await OTP.deleteMany({ email }); // Clear old OTPs
+  await OTP.deleteMany({ email });
 
   res
     .status(200)

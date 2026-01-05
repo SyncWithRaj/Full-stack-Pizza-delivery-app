@@ -8,7 +8,6 @@ export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // ✅ Fetch cart from backend on mount
   useEffect(() => {
     const fetchCart = async () => {
       try {
@@ -27,16 +26,15 @@ export const CartProvider = ({ children }) => {
     try {
       const res = await API.post("/cart/add", {
         pizzaId: pizza._id,
-        quantity, // send quantity
+        quantity,
       });
-      setCart(res.data.data); // assuming backend returns updated cart
+      setCart(res.data.data);
     } catch (err) {
       console.error("Add to cart failed", err);
     }
   };
 
 
-  // ✅ Remove from cart (calls backend)
   const removeFromCart = async (pizzaId) => {
     try {
       const res = await API.post("/cart/remove", { pizzaId });
@@ -46,7 +44,6 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  // ✅ Clear entire cart
   const clearCart = async () => {
     try {
       await API.delete("/cart/clear");

@@ -8,7 +8,7 @@ const AdminUsers = () => {
 
   const fetchUsers = async () => {
     try {
-      const res = await API.get("/users"); // Admin-protected route
+      const res = await API.get("/users"); 
       setUsers(res.data.data);
     } catch (err) {
       console.error(err);

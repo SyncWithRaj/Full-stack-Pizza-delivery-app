@@ -10,12 +10,11 @@ const razorpay = new Razorpay({
   key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
 
-// ✅ Generate Razorpay Order
 export const createRazorpayOrder = asyncHandler(async (req, res) => {
-  const { amount } = req.body; // Amount in rupees
+  const { amount } = req.body; 
 
   const options = {
-    amount: amount * 100, // Razorpay needs paise
+    amount: amount * 100, 
     currency: "INR",
     receipt: `receipt_${Date.now()}`,
   };
@@ -25,7 +24,6 @@ export const createRazorpayOrder = asyncHandler(async (req, res) => {
   res.status(200).json(new ApiResponse(200, { orderId: order.id }, "Order created"));
 });
 
-// ✅ Verify payment (called from frontend after success)
 export const verifyRazorpaySignature = asyncHandler(async (req, res) => {
   const { razorpay_order_id, razorpay_payment_id, razorpay_signature, orderId } = req.body;
 
@@ -40,7 +38,6 @@ export const verifyRazorpaySignature = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Invalid signature");
   }
 
-  // ✅ Payment is verified — update DB order
   const order = await Order.findById(orderId);
   if (!order) throw new ApiError(404, "Order not found");
 

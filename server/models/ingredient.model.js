@@ -23,8 +23,8 @@ const ingredientSchema = new Schema(
       default: 50,
     },
     image: {
-      type: String, // URL from Cloudinary
-      default: "",  // Optional, not required
+      type: String, 
+      default: "",
     },
   },
   { timestamps: true }

@@ -13,7 +13,7 @@ export const sendOtp = asyncHandler(async (req, res) => {
     await OTP.create({
         email,
         otp: otpCode,
-        expiresAt: Date.now() + 10 * 60 * 1000, // valid for 10 mins
+        expiresAt: Date.now() + 10 * 60 * 1000, 
     });
 
     await transporter.sendMail({

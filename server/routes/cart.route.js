@@ -9,7 +9,6 @@ import {
 
 const router = express.Router();
 
-// ✅ Use verifyJWT to protect cart routes
 router.use(verifyJWT);
 
 router.get("/", getCart);

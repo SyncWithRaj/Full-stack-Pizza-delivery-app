@@ -3,7 +3,7 @@ import { Pizza } from "../models/pizza.model.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
-import { Ingredient } from "../models/ingredient.model.js"; // ✅ Import
+import { Ingredient } from "../models/ingredient.model.js";
 
 export const createOrder = asyncHandler(async (req, res) => {
   const { pizzas, deliveryAddress } = req.body;
@@ -46,7 +46,6 @@ export const createOrder = asyncHandler(async (req, res) => {
     const onePizzaPrice = sizePrice + ingredientsTotal;
     const quantity = item.quantity || 1;
 
-    // ✅ DECREASE STOCK for each ingredient used
     for (const ing of matchedPizza.ingredients) {
       if (ing.stock < quantity) {
         throw new ApiError(400, `Not enough stock for ingredient: ${ing.name}`);
@@ -85,7 +84,6 @@ export const createOrder = asyncHandler(async (req, res) => {
 });
 
 
-// ✅ Get orders of logged-in user (USER)
 export const getMyOrders = asyncHandler(async (req, res) => {
   const orders = await Order.find({ user: req.user._id }).sort({
     createdAt: -1,
@@ -94,7 +92,6 @@ export const getMyOrders = asyncHandler(async (req, res) => {
   res.status(200).json(new ApiResponse(200, orders, "Your orders"));
 });
 
-// ✅ Get all orders (ADMIN only)
 export const getAllOrders = asyncHandler(async (req, res) => {
   const orders = await Order.find()
     .populate("user", "username email")
@@ -103,7 +100,6 @@ export const getAllOrders = asyncHandler(async (req, res) => {
   res.status(200).json(new ApiResponse(200, orders, "All orders"));
 });
 
-// ✅ Update order status (ADMIN only)
 export const updateOrderStatus = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const { status, paymentStatus, paymentId } = req.body;
@@ -133,7 +129,6 @@ export const updateOrderStatus = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, order, "Order status updated successfully"));
 });
 
-// ✅ Delete an order (ADMIN only)
 export const deleteOrder = asyncHandler(async (req, res) => {
   const { id } = req.params;
 

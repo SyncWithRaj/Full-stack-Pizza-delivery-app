@@ -1,4 +1,4 @@
-// models/order.model.js
+
 import mongoose, { Schema } from "mongoose";
 
 const orderSchema = new Schema(
@@ -23,7 +23,7 @@ const orderSchema = new Schema(
             price: Number,
           },
         ],
-        totalPrice: Number, // calculated dynamically
+        totalPrice: Number,  
         quantity: {
           type: Number,
           default: 1,

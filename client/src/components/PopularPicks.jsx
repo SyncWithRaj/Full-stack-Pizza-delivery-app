@@ -16,17 +16,16 @@ export default function PopularPicks({ popularItems, handleAddPopularToCart }) {
     }
   };
 
-  // Auto-scroll effect
   useEffect(() => {
     const container = scrollRef.current;
     if (!container) return;
 
-    let scrollSpeed = 1; // pixels per frame
+    let scrollSpeed = 1; 
     let animationFrame;
 
     const smoothScroll = () => {
       if (container.scrollLeft + container.clientWidth >= container.scrollWidth) {
-        container.scrollLeft = 0; // loop back to start
+        container.scrollLeft = 0; 
       } else {
         container.scrollLeft += scrollSpeed;
       }

@@ -4,7 +4,6 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { ApiError } from "../utils/ApiError.js";
 
-// ✅ Get all users (Admin only)
 export const getAllUsers = asyncHandler(async (req, res) => {
   const users = await User.find({}, "username email role");
   res
@@ -12,7 +11,6 @@ export const getAllUsers = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, users, "Users fetched successfully"));
 });
 
-// ✅ Delete user
 export const deleteUser = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
@@ -22,7 +20,6 @@ export const deleteUser = asyncHandler(async (req, res) => {
   res.status(200).json(new ApiResponse(200, null, "User deleted successfully"));
 });
 
-// ✅ Get my profile
 export const getMyProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id, "username email role createdAt");
   if (!user) throw new ApiError(404, "User not found");
@@ -30,7 +27,6 @@ export const getMyProfile = asyncHandler(async (req, res) => {
   res.status(200).json(new ApiResponse(200, user, "User profile fetched"));
 });
 
-// ✅ Update my profile after verifying OTP
 export const verifyOtpAndUpdate = asyncHandler(async (req, res) => {
   const { username, email, otp } = req.body;
 
@@ -41,7 +37,7 @@ export const verifyOtpAndUpdate = asyncHandler(async (req, res) => {
   const validOtp = await OTP.findOne({
     email,
     otp,
-    expiresAt: { $gt: Date.now() }, // ensure OTP not expired
+    expiresAt: { $gt: Date.now() },
   });
 
   if (!validOtp) {
@@ -57,7 +53,6 @@ export const verifyOtpAndUpdate = asyncHandler(async (req, res) => {
   user.email = email;
   await user.save();
 
-  // Clean up used OTP
   await OTP.deleteOne({ _id: validOtp._id });
 
   res.status(200).json(

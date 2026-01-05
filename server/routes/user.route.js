@@ -1,4 +1,4 @@
-// in routes/user.route.js
+
 import express from "express";
 import { deleteUser, getAllUsers, verifyOtpAndUpdate } from "../controllers/user.controller.js";
 import { verifyJWT } from "../middleware/auth.middleware.js";

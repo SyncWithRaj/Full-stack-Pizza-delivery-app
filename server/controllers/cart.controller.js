@@ -17,20 +17,19 @@ export const getCart = asyncHandler(async (req, res) => {
 
   const cartItems = cart.pizzas
     .map((item) => {
-      if (!item.pizza) return null; // pizza was deleted from DB
+      if (!item.pizza) return null; 
       return {
         ...item.pizza.toObject(),
         quantity: item.quantity,
       };
     })
-    .filter(Boolean); // remove nulls from list
+    .filter(Boolean);
 
   res
     .status(200)
     .json(new ApiResponse(200, { pizzas: cartItems }, "Cart fetched successfully"));
 });
 
-// ✅ Add/Update Item to Cart
 export const addToCart = asyncHandler(async (req, res) => {
   const { pizzaId, quantity = 1 } = req.body;
 
@@ -59,9 +58,8 @@ export const addToCart = asyncHandler(async (req, res) => {
 });
 
 
-// ✅ Remove Item from Cart
 export const removeFromCart = asyncHandler(async (req, res) => {
-  const { pizzaId } = req.params; // ✅ FIXED
+  const { pizzaId } = req.params;
 
   const cart = await Cart.findOne({ user: req.user._id });
   if (!cart) throw new ApiError(404, "Cart not found");
@@ -72,8 +70,6 @@ export const removeFromCart = asyncHandler(async (req, res) => {
   res.status(200).json(new ApiResponse(200, cart, "Item removed from cart"));
 });
 
-
-// ✅ Clear Cart (after order placed)
 export const clearCart = asyncHandler(async (req, res) => {
   await Cart.findOneAndDelete({ user: req.user._id });
   res.status(200).json(new ApiResponse(200, null, "Cart cleared"));

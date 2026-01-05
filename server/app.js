@@ -20,7 +20,7 @@ app.use(cors({
 app.use(express.json());
 app.use(cookieParser());
 
-app.use("/api/v1/admin", adminRoutes); // 👈 Mount admin routes
+app.use("/api/v1/admin", adminRoutes);
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/pizzas", pizzaRoutes);
 app.use("/api/v1/ingredients", ingredientRoutes);

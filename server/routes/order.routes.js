@@ -11,17 +11,15 @@ import { checkRole } from "../middleware/checkRole.js";
 
 const router = express.Router();
 
-// 🛡️ All routes below require authentication
 router.use(verifyJWT);
 
-// 👤 User Routes
-router.post("/", createOrder);      // Place new order
-router.get("/my", getMyOrders);     // Get logged-in user's orders
+router.post("/", createOrder);  
+router.get("/my", getMyOrders);  
 
-// 🛡️ Admin Routes
+
 router.use(checkRole("admin"));
-router.get("/", getAllOrders);              // Get all orders (admin)
-router.put("/:id", updateOrderStatus);      // Update status (admin)
-router.delete("/:id", deleteOrder);         // Delete order (admin)
+router.get("/", getAllOrders);    
+router.put("/:id", updateOrderStatus);   
+router.delete("/:id", deleteOrder);      
 
 export default router;

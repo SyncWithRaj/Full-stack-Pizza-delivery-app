@@ -1,15 +1,13 @@
 import nodemailer from "nodemailer";
 
-// Create transporter
 export const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: process.env.SMTP_USER, // e.g. yourname@gmail.com
-    pass: process.env.SMTP_PASS, // App password (not your Gmail login)
+    user: process.env.SMTP_USER,
+    pass: process.env.SMTP_PASS,
   },
 });
 
-// Reusable sendMail utility
 export const sendMail = async (to, subject, text) => {
   const mailOptions = {
     from: process.env.SMTP_USER,

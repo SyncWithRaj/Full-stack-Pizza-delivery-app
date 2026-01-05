@@ -12,11 +12,11 @@ export const uploadOnCloudinary = async (localFilePath) => {
     if (!localFilePath) return null;
 
     const result = await cloudinary.uploader.upload(localFilePath, {
-      folder: 'pizza_ingredients', // optional
+      folder: 'pizza_ingredients',
     });
 
-    fs.unlinkSync(localFilePath); // cleanup local file
-    return result; // contains secure_url
+    fs.unlinkSync(localFilePath); 
+    return result;
   } catch (error) {
     console.error("Upload error:", error);
     return null;
